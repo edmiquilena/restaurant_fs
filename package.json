@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "db.js",
   "scripts": {
+    "start": "node main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,8 +16,14 @@
   "bugs": {
     "url": "https://github.com/edmiquilena/restaurant_fs/issues"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "*.json"
+    ]
+  },
   "homepage": "https://github.com/edmiquilena/restaurant_fs#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.18.1"
   },
   "description": ""

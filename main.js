@@ -1,11 +1,24 @@
 const express = require("express");
 const db = require("./db.js");
 const app = express();
+const bcrypt = require("bcrypt");
 
 // middleware https://expressjs.com/es/api.html#express.urlencoded
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 // middleware https://expressjs.com/es/api.html#express.json
 app.use(express.json());
+
+//middleware hash contrasena
+app.use((req, res, next) => {
+  bcrypt
+    .genSalt(10)
+    .then((salt) => bcrypt.hash(req.body.password, salt))
+    .then((hash) => {
+      req.body.password = hash;
+      next();
+    });
+});
+
 //* request/ response
 const DB = new db("data");
 
@@ -36,8 +49,8 @@ app.get("/usuario", async (req, res) => {
 });
 
 app.post("/usuario", async (req, res) => {
-  const { nombre, correo } = req.body;
-
+  const { nombre, correo, password } = req.body;
+  console.log(password);
   const data = await DB.createUser({ nombre, correo });
   return res.send({ error: false, msg: "Usuario creado" });
 });
