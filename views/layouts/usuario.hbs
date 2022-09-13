@@ -1,0 +1,53 @@
+<html lang="en">
+<%- include('include/head') %>
+  <body>
+ {{ header}}
+
+    <!-- Begin page content -->
+    <main role="main" class="container">
+      <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+        <div class="card p-4">
+          <div
+            class="image d-flex flex-column justify-content-center align-items-center"
+          >
+            <button class="btn btn-secondary">
+              <img
+                height="100"
+                width="100"
+                src="https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Kurt&hatColor=Black&facialHairType=Blank&clotheType=BlazerSweater&eyeType=Close&eyebrowType=Default&mouthType=Default&skinColor=Light"
+              />
+            </button>
+            <span class="name mt-3"><%= nombre %></span>
+            <span class="idd"><%= correo  %></span>
+
+            <div class="text mt-3">
+              <span> </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      window.jQuery || document.write( '<script
+      src="https://getbootstrap.com/docs/4.0/assets/js/vendor/jquery-slim.min.js"><\/script>'
+      );
+    </script>
+    <script
+      src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

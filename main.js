@@ -3,32 +3,63 @@ const db = require("./db.js");
 const app = express();
 const bcrypt = require("bcrypt");
 
+const handlebars = require("express-handlebars");
+
+// views
+// app.use('views', './views/')
+
+//view engine
+
+// const hbs = handlebars.engine({
+//   extname: "hbs",
+//   layoutsDir: "./views/layouts/",
+// });
+
+// app.engine("hbs", hbs);
+
+app.set("view engine", "pug");
+
+const DB = new db("data");
 // middleware https://expressjs.com/es/api.html#express.urlencoded
 app.use(express.urlencoded({ extended: true }));
 // middleware https://expressjs.com/es/api.html#express.json
 app.use(express.json());
 
-//middleware hash contrasena
-app.use((req, res, next) => {
-  bcrypt
-    .genSalt(10)
-    .then((salt) => bcrypt.hash(req.body.password, salt))
-    .then((hash) => {
-      req.body.password = hash;
-      next();
-    });
+// * frontend
+
+app.get("/registro", (req, res) => {
+  //  res.render("main", { layout: "registro" });
+  res.render("formulario");
+});
+app.get("/admin", async (req, res) => {
+  const usuarios = await DB.getAllUsers();
+  res.render("main", { layout: "usuarios", usuarios });
 });
 
+app.get("/usuario/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await DB.getUserById(id);
+    // const {nombre, correo} =  data;
+    res.render("main", { layout: "usuario", ...data });
+  } catch (e) {
+    return res.status(404).render("main", { layout: "error" });
+  }
+
+  res.render("main", { layout: "usuarios", usuarios });
+});
+
+//middleware hash contrasena
+
 //* request/ response
-const DB = new db("data");
 
 // root = no hay problema
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
   res.send({ error: false });
 });
 
 //getAll
-app.get("/usuarios", async (req, res) => {
+app.get("/api/usuarios", async (req, res) => {
   const data = await DB.getAllUsers();
   return res.send(data);
 });
@@ -37,7 +68,7 @@ app.get("/usuarios", async (req, res) => {
 // queries
 // * GET ?id=10
 
-app.get("/usuario", async (req, res) => {
+app.get("/api/usuario", async (req, res) => {
   const { id } = req.query;
   try {
     const data = await DB.getUserById(id);
@@ -48,11 +79,12 @@ app.get("/usuario", async (req, res) => {
   }
 });
 
-app.post("/usuario", async (req, res) => {
+app.post("/api/usuario", async (req, res) => {
+  console.log(req.body);
   const { nombre, correo, password } = req.body;
   console.log(password);
   const data = await DB.createUser({ nombre, correo });
-  return res.send({ error: false, msg: "Usuario creado" });
+  return res.redirect("/registro");
 });
 
 app.listen(8080, () => {
